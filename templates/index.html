@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF Compressor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main>
+  <h1>PDF Compressor</h1>
+  <p class="sub">離線執行 · PDF 只在這台電腦處理 · 不覆蓋原始檔</p>
+
+  {% if not gs %}
+  <div class="alert">
+    找不到 Ghostscript。<br>
+    Windows：安裝後在命令提示字元執行 <code>gswin64c --version</code> 確認。<br>
+    macOS：執行 <code>brew install ghostscript</code>，再以 <code>gs --version</code> 確認。<br>
+    安裝好後重新整理此頁。
+  </div>
+  {% endif %}
+
+  <div id="drop">
+    <b>Drag &amp; Drop PDF here</b>
+    <span>or click to select</span>
+  </div>
+  <input id="picker" type="file" accept=".pdf,application/pdf" multiple hidden>
+
+  <div id="files" hidden>
+    <h2>Selected files</h2>
+    <ul id="list"></ul>
+  </div>
+
+  <div class="form">
+    <label for="outdir">Output folder</label>
+    <div>
+      <div class="pathrow">
+        <input id="outdir" type="text" placeholder="{{ output_dir }}" data-default="{{ output_dir }}">
+        <button id="browse" type="button">Browse…</button>
+        <button id="resetdir" type="button">Default</button>
+      </div>
+      <label class="check"><input id="ask" type="checkbox" checked> 按 Compress PDF 時選擇儲存位置</label>
+      <small>空白＝預設資料夾（本工具所在位置）。可貼上完整路徑，或按 Browse 選擇。</small>
+    </div>
+
+    <label for="suffix">Output suffix</label>
+    <div>
+      <input id="suffix" type="text">
+      <small>輸出：<span id="example">paper_compressed_….pdf</span>（.pdf 自動加上）</small>
+    </div>
+
+    <label for="preset">Compression</label>
+    <select id="preset">
+      <option value="screen">Screen（約 72 DPI，最小）</option>
+      <option value="ebook" selected>Ebook（約 150 DPI，建議）</option>
+      <option value="printer">Printer（約 300 DPI）</option>
+      <option value="prepress">Prepress（約 300 DPI，印刷）</option>
+      <option value="custom">Custom（自訂）</option>
+    </select>
+
+    <label for="dpi">Image resolution</label>
+    <div>
+      <input id="dpi" type="number" min="30" max="1200" step="1" value="150"> DPI
+      <small>Custom 時可修改；套用到彩色與灰階圖片</small>
+    </div>
+
+    <label for="quality">Image quality</label>
+    <div>
+      <input id="quality" type="number" min="1" max="100" step="1" value="75"> %
+      <small>Lower = smaller file / lower image quality · Higher = larger file / higher image quality</small>
+    </div>
+  </div>
+
+  <button id="go" disabled>Compress PDF</button>
+  <p class="where"><button id="quit">結束程式</button>　（直接關閉分頁也可以，程式會在 3 分鐘後自動結束）</p>
+</main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

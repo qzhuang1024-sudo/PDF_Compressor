@@ -1,0 +1,67 @@
+PDF Compressor — 離線 PDF 壓縮工具
+====================================
+
+在瀏覽器裡拖曳 PDF → 選擇壓縮程度 → 壓縮。
+所有處理都在你自己的電腦上完成，PDF 不會上傳到任何地方。
+（只有第一次安裝時需要網路，用來下載 Ghostscript / Python / Flask。）
+
+
+■ macOS
+-------
+
+第一次：雙擊「Install.command」
+  會自動檢查並安裝 Homebrew、Ghostscript、Python、Flask（已安裝的會略過）。
+  若需要安裝 Homebrew，會先詢問你，並要求輸入這台 Mac 的登入密碼。
+  結束時會問是否立即啟動。
+
+之後：雙擊「Start PDF Compressor.command」
+
+如果雙擊時出現「無法打開，因為它來自未識別的開發者」：
+  macOS 14 或更舊：對 Install.command 按右鍵 →「打開」→ 再按「打開」。
+  macOS 15 或更新：先雙擊一次（出現警告後按「完成」），
+                  打開「系統設定」→「隱私權與安全性」→ 往下找到
+                  「已阻擋 Install.command」→ 按「強制打開」。
+  安裝完成後，啟動檔就不會再被阻擋。
+
+如果出現「沒有適當的存取權限」（檔案無法執行）：
+  打開「終端機」，輸入 bash 加一個空格，把 Install.command 拖進終端機視窗，按 Enter。
+
+
+■ Windows
+---------
+
+1. 安裝 Python 3.9 以上：https://www.python.org/downloads/
+   （安裝時勾選「Add python.exe to PATH」）
+2. 安裝 Ghostscript：https://www.ghostscript.com/releases/gsdnld.html
+   下載「Ghostscript AGPL Release」64-bit 版本，照預設安裝。
+3. 雙擊「Start PDF Compressor (Windows).pyw」
+   第一次會自動安裝 Flask（需要網路），之後瀏覽器會自動開啟。
+
+
+■ 使用方式
+----------
+
+1. 把 PDF 拖進虛線框（或點一下選檔，可多選）
+2. Output folder：輸出資料夾，空白＝本工具所在資料夾
+   勾選「按 Compress PDF 時選擇儲存位置」時，按下壓縮會先跳出選擇資料夾視窗
+3. Output suffix：檔名後綴，預設 _compressed_日期_時間
+   例：paper.pdf → paper_compressed_20260930_083512.pdf
+4. Compression：Screen（最小）/ Ebook（建議）/ Printer / Prepress / Custom
+   Custom 可自訂圖片解析度（DPI）與圖片品質（1–100）
+5. 按 Compress PDF。原始 PDF 不會被修改或覆蓋。
+6. 用完按網頁下方「結束程式」，或直接關閉分頁（幾分鐘後自動結束）。
+
+
+■ 檔案說明
+----------
+
+Install.command                     macOS 安裝工具
+Start PDF Compressor.command        macOS 啟動檔
+Start PDF Compressor (Windows).pyw  Windows 啟動檔
+app.py                              本機網頁介面（只在 127.0.0.1，不對外）
+compressor.py                       Ghostscript 壓縮核心
+requirements.txt                    Python 套件（Flask）
+templates/, static/                 網頁畫面
+.venv/                              （macOS 安裝後自動產生，分享時不需要附上）
+
+Ghostscript 由 Artifex 以 AGPL 授權釋出，本工具不包含 Ghostscript，由使用者自行安裝。
