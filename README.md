@@ -1,4 +1,3 @@
-# PDF_Compressor
 PDF Compressor — 離線 PDF 壓縮工具
 ====================================
 
